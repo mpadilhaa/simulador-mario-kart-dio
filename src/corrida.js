@@ -11,6 +11,42 @@ export class Race {
   async playerRaceEngine(character1, character2) {
     for (let round = 1; round <= 5; round++) {
       console.log(`🏁 Rodada ${round}`);
+      if (block === "reta") {
+        totalTestSkill1 = diceResult1 + character1.velocidade;
+        totalTestSkill1 = diceResult2 + character1.velocidade;
+
+        await this.logRollResult(
+          character1.name,
+          block,
+          diceResult1,
+          character1.velocidade
+        );
+        await this.logRollResult(
+          character2.name,
+          block,
+          diceResult2,
+          character2.velocidade
+        );
+      } else if (block === "curva") {
+        totalTestSkill1 = diceResult1 + character1.manobrabilidade;
+        totalTestSkill1 = diceResult2 + character1.manobrabilidade;
+
+        await this.logRollResult(
+          character1.name,
+          block,
+          diceResult1,
+          character1.manobrabilidade
+        );
+        await this.logRollResult(
+          character2.name,
+          block,
+          diceResult2,
+          character2.manobrabilidade
+        );
+      } else {
+        let powerResult1 = diceResult1 + character1.poder;
+        let powerResult2 = diceResult1 + character1.poder;
+      }
     }
 
     let block = await this.getRandomBlock();
@@ -22,14 +58,12 @@ export class Race {
     let totalTestSkill1 = 0;
     let totalTestSkill2 = 0;
 
-    if (block === "reta") {
-      totalTestSkill1 = diceResult1 + character1.velocidade;
-      totalTestSkill1 = diceResult2 + character1.velocidade;
-    }
-    if (block === "curva") {
-      totalTestSkill1 = diceResult1 + character1.manobrabilidade;
-      totalTestSkill1 = diceResult2 + character1.manobrabilidade;
-    } else {
+    if (totalTestSkill1 > totalTestSkill2) {
+      console.log(`${character1.name} marcou um ponto`);
+      character1.pontos++;
+    } else if (totalTestSkill2 > totalTestSkill1) {
+      console.log(`${character2.name} marcou um ponto`);
+      character2.pontos++;
     }
   }
 
@@ -51,5 +85,13 @@ export class Race {
     }
 
     return result;
+  }
+
+  async logRollResult(characterName, block, diceResult, attribute) {
+    return console.log(
+      `${characterName} 🎲 rolou um dado de ${block} ${diceResult} + ${attribute} = ${
+        diceResult + attribute
+      }`
+    );
   }
 }
