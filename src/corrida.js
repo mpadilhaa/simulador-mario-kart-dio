@@ -50,16 +50,26 @@ export class Race {
           character2.manobrabilidade
         );
       } else {
-        let powerResult1 = diceResult1 + character1.poder;
-        let powerResult2 = diceResult1 + character1.poder;
+        totalTestSkill1 = diceResult1 + character1.poder;
+        totalTestSkill2 = diceResult1 + character1.poder;
+
+        await this.logRollResult(
+          character1.name,
+          block,
+          diceResult1,
+          character1.poder
+        );
+        await this.logRollResult(
+          character2.name,
+          block,
+          diceResult2,
+          character2.poder
+        );
       }
 
       console.log(`Bloco: ${block}`);
 
-      if (totalTestSkill1 == totalTestSkill2) {
-        console.log("empate");
-        character1.pontos++;
-      } else if (totalTestSkill2 > totalTestSkill1) {
+      if (totalTestSkill2 > totalTestSkill1) {
         console.log(`${character2.name} marcou um ponto`);
         character2.pontos++;
       } else if (totalTestSkill1 > totalTestSkill2) {
